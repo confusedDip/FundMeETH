@@ -22,9 +22,8 @@ contract FundMe {
         fundedAmounts[msg.sender] += msg.value.getConversionRate();    
     }
 
-    function withdraw() public {
+    function withdraw() public ownerOnly{
 
-        require(msg.sender == owner, "Can only be withdrawn by the Owner!");
         for (uint funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
             fundedAmounts[funder] = 0;  // Sets the amount funded to be Zero
@@ -37,5 +36,9 @@ contract FundMe {
         require(callSuccess, "Transaction Unsuccessful");
     }
 
+    modifier ownerOnly() {
+        require(msg.sender == owner, "Can only be withdrawn by the Owner!");
+        _;
+    }
     
 }
