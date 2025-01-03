@@ -40,5 +40,10 @@ contract FundMe {
         require(msg.sender == owner, "Can only be withdrawn by the Owner!");
         _;
     }
+
+    // In case, funds are externally sent without calling the fund() function
+    receive() external payable { fund(); }
+
+    fallback() external payable { fund(); }
     
 }
